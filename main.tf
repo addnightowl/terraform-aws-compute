@@ -9,7 +9,7 @@ data "aws_ami" "server_ami" {
   }
 }
 
-resource "random_id" "mtc_node_id" {
+resource "random_id" "lunx_node_id" {
   byte_length = 2
   count       = var.instance_count
   keepers = {
@@ -17,21 +17,21 @@ resource "random_id" "mtc_node_id" {
   }
 }
 
-resource "aws_key_pair" "mtc_auth" {
+resource "aws_key_pair" "lunx_auth" {
   key_name   = var.key_name
   public_key = var.public_key_material
 }
 
-resource "aws_instance" "mtc_node" {
+resource "aws_instance" "lunx_node" {
   count         = var.instance_count
   instance_type = var.instance_type
   ami           = data.aws_ami.server_ami.id
 
   tags = {
-    Name = "mtc_node-${random_id.mtc_node_id[count.index].dec}"
+    Name = "lunx_node-${random_id.lunx_node_id[count.index].dec}"
   }
 
-  key_name               = aws_key_pair.mtc_auth.id
+  key_name               = aws_key_pair.lunx_auth.id
   vpc_security_group_ids = [var.public_sg]
   subnet_id              = var.public_subnets[count.index]
 

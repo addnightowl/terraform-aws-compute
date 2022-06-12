@@ -1,4 +1,4 @@
 output "instance" {
-  value     = aws_instance.mtc_node[*]
+  value     = aws_instance.lunx_node[*]
   sensitive = true
 }
